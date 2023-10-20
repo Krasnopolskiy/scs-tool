@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "nir-blockchain"
+version = "0.1.0"
+description = "Blockchain Contract Parser"
+authors = ["Krasnopolsky Ivan <i1.krasnopolskiy@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "nir_blockchain" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiohttp = "^3.8.6"
+beautifulsoup4 = "^4.12.2"
+loguru = "^0.7.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.10.0"
+isort = "^5.12.0"
+pylint = "^3.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+exclude = '(\.git|\.cache|\.venv|\.idea|__pycache__)'
+
+[tool.isort]
+profile = "black"
+line_length = 120
+skip = [".git", ".cache", ".venv", ".idea", "**/__pycache__/**"]
