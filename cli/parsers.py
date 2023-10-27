@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from cli.types import address_type
+from cli.types import address_type, transactions_number_type
 
 parser = ArgumentParser(
     description="Blockchain Contract Parser",
@@ -15,6 +15,6 @@ parser.add_argument(
 parser.add_argument(
     "-l",
     "--last",
-    type=int,
-    help="The number of last transactions containing contracts to be parsed",
+    type=transactions_number_type,
+    help="The number of last transactions containing contracts to be parsed <= 100_000",
 )

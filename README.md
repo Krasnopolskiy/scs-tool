@@ -15,7 +15,7 @@ options:
   -h, --help            show this help message and exit
   -a ADDRESSES [ADDRESSES ...], --addresses ADDRESSES [ADDRESSES ...]
                         List of address IDs containing the contracts to be parsed
-  -l LAST, --last LAST  The number of last transactions containing contracts to be parsed
+  -l LAST, --last LAST  The number of last transactions containing contracts to be parsed <= 100_000
 ```
 
 ## 🤖 Bypass AntiBot

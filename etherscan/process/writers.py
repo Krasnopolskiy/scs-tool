@@ -10,7 +10,7 @@ def write_contract_files(address: Address, files: list[ContractFile]):
     """
     The function `write_contract_files` writes a list of contract files to a specified directory,
     creating the directory if it doesn't exist.
-    
+
     :param address: The `address` parameter is of type `Address`, which is likely a custom data type
     representing a contract address
     :type address: Address

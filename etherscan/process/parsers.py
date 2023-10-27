@@ -10,18 +10,19 @@ address_regex = re.compile(r"/address/(\w+)")
 
 def parse_transaction_list(html: str) -> list[Address]:
     """
-    The function `parse_transaction_list` extracts addresses from an HTML document and returns them as a
-    list.
+    The function `parse_transaction_list` takes an HTML string, extracts addresses from a table, and
+    returns a list of addresses.
     
-    :param html: The `html` parameter is a string that represents the HTML content of a web page
+    :param html: A string containing HTML code
     :type html: str
     :return: The function `parse_transaction_list` returns a list of `Address` objects.
     """
     soup = BeautifulSoup(html, "html.parser")
     addresses: list[Address] = []
-    for row in soup.find("tbody").find_all("tr"):
-        for tag in row.find_all("a", href=address_regex):
-            addresses.extend(address_regex.match(tag["href"]).groups())
+    if table := soup.find("tbody"):
+        for row in table.find_all("tr"):
+            for tag in row.find_all("a", href=address_regex):
+                addresses.extend(address_regex.match(tag["href"]).groups())
     return addresses
 
 
