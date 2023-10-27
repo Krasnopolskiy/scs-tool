@@ -2,14 +2,18 @@
 
 ## 📁 Usage
 
-### 👮‍♂️ Get help
-
 ```bash
 python main.py -h
 ```
 
-### 🔍 Parse transactions
+```text
+usage: main.py [-h] [-a ADDRESSES [ADDRESSES ...]] [-l LAST]
 
-```bash
-python main.py id1 id2 ...
+Blockchain Contract Parser
+
+options:
+  -h, --help            show this help message and exit
+  -a ADDRESSES [ADDRESSES ...], --addresses ADDRESSES [ADDRESSES ...]
+                        List of address IDs containing the contracts to be parsed
+  -l LAST, --last LAST  The number of last transactions containing contracts to be parsed
 ```
