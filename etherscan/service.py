@@ -11,7 +11,7 @@ async def process_last_addresses(size: int):
     """
     The function `process_last_addresses` loads a specified number of addresses and then processes them.
     
-    :param size: The size parameter represents the number of addresses to load and process
+    :param size: The size parameter represents the number of addresses to load and request
     :type size: int
     """
     addresses = await load_addresses(size)

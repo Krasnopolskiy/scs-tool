@@ -17,3 +17,11 @@ options:
                         List of address IDs containing the contracts to be parsed
   -l LAST, --last LAST  The number of last transactions containing contracts to be parsed
 ```
+
+## 🤖 Bypass AntiBot
+
+Copy _.env.sample_ file and fill the `cf_clearance` cookie value:
+
+```bash
+cp .env.sample .env
+```

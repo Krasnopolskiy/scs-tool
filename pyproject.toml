@@ -12,6 +12,7 @@ aiohttp = "^3.8.6"
 beautifulsoup4 = "^4.12.2"
 loguru = "^0.7.2"
 pydantic = "^2.4.2"
+pydantic-settings = "^2.0.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.10.0"
