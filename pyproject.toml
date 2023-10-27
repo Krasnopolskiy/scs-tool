@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "Blockchain Contract Parser"
 authors = ["Krasnopolsky Ivan <i1.krasnopolskiy@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "nir_blockchain" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
