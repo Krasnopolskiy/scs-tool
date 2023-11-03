@@ -8,6 +8,7 @@ class Endpoint(StrEnum):
     The class defines a set of endpoints for a web API.
     """
     TRANSACTION_LIST = "/txsInternal?ps={size}&p={offset}"
+    TRANSACTION = "/tx/{transaction}"
     ADDRESS = "/address/{address}"
 
 

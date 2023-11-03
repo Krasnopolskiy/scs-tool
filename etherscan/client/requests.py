@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from loguru import logger
 
-from common.schemas import Address
+from common.schemas import Address, Transaction
 from etherscan.client.urls import Endpoint, reverse
 from etherscan.config.client import ClientSessionBuilder
 
@@ -50,4 +50,26 @@ async def fetch_transaction_list_page(size: int, offset: int) -> str:
                 logger.error("Error during fetching list transactions {}: {}", offset, response.status, text)
                 raise IOError(f"Server returned {response.status}: {text}")
             logger.info("Transactions list from {} to {} fetched successfully", offset, offset + size)
+            return text
+
+
+async def fetch_transaction_page(transaction: Transaction) -> str:
+    """
+    The function fetches a transaction page using an asynchronous HTTP client session and returns the
+    page content as a string.
+    
+    :param transaction: The `transaction` parameter is an instance of the `Transaction` class. It
+    represents a specific transaction that needs to be fetched from a server
+    :type transaction: Transaction
+    :return: The function `fetch_transaction_page` returns a string.
+    """
+    async with ClientSessionBuilder().session() as session:
+        logger.info("Fetching transaction {}", transaction)
+        url = reverse(Endpoint.TRANSACTION, transaction=transaction)
+        async with session.get(url) as response:
+            text = await response.text()
+            if response.status != HTTPStatus.OK:
+                logger.error("Error during fetching transaction {}: {}: {}", transaction, response.status, text)
+                raise IOError(f"Server returned {response.status}: {text}")
+            logger.info("Transaction {} fetched successfully", transaction)
             return text

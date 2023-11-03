@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from cli.types import address_type, transactions_number_type
+from cli.types import address_type, transactions_number_type, transaction_type
 
 parser = ArgumentParser(
     description="Blockchain Contract Parser",
@@ -11,6 +11,13 @@ parser.add_argument(
     nargs="+",
     type=address_type,
     help="List of address IDs containing the contracts to be parsed",
+)
+parser.add_argument(
+    "-t",
+    "--transactions",
+    nargs="+",
+    type=transaction_type,
+    help="List of transactions IDs containing the contracts to be parsed",
 )
 parser.add_argument(
     "-l",

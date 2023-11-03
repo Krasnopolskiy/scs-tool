@@ -12,7 +12,7 @@ def parse_transaction_list(html: str) -> list[Address]:
     """
     The function `parse_transaction_list` takes an HTML string, extracts addresses from a table, and
     returns a list of addresses.
-    
+
     :param html: A string containing HTML code
     :type html: str
     :return: The function `parse_transaction_list` returns a list of `Address` objects.
@@ -30,7 +30,7 @@ def parse_contract_files(html: str) -> list[ContractFile]:
     """
     The function `parse_contract_files` takes an HTML string, extracts contract file information, and
     returns a list of `ContractFile` objects.
-    
+
     :param html: The `html` parameter is a string that represents the HTML content of a webpage
     :type html: str
     :return: The function `parse_contract_files` returns a list of `ContractFile` objects.
@@ -42,3 +42,21 @@ def parse_contract_files(html: str) -> list[ContractFile]:
         content = tag.findNext("pre").text
         files.append(ContractFile(name=name, content=content))
     return files
+
+
+def parse_transaction(html: str) -> list[Address]:
+    """
+    The function `parse_transaction` takes an HTML string as input, extracts addresses from the HTML
+    using a regular expression, and returns a list of addresses.
+    
+    :param html: A string containing HTML code
+    :type html: str
+    :return: The function `parse_transaction` returns a list of `Address` objects.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    addresses: list[Address] = []
+    for tag in soup.find_all(href=address_regex):
+        if tag.find("span"):  # Donation address
+            continue
+        addresses.extend(address_regex.match(tag["href"]).groups())
+    return addresses

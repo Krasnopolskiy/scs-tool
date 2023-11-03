@@ -1,10 +1,10 @@
 import asyncio
 from asyncio import Task
 
-from common.schemas import Address
-from etherscan.client.requests import fetch_contract_page, fetch_transaction_list_page
+from common.schemas import Address, Transaction
+from etherscan.client.requests import fetch_contract_page, fetch_transaction_list_page, fetch_transaction_page
 from etherscan.config import constants
-from etherscan.process.parsers import parse_contract_files, parse_transaction_list
+from etherscan.process.parsers import parse_contract_files, parse_transaction_list, parse_transaction
 from etherscan.process.writers import write_contract_files
 
 
@@ -34,6 +34,20 @@ async def process_addresses(addresses: list[Address]):
     await asyncio.gather(*tasks)
 
 
+async def process_transactions(transactions: list[Transaction]):
+    """
+    The function `process_transactions` processes a list of transactions asynchronously using asyncio.
+    
+    :param transactions: The `transactions` parameter is a list of `Transaction` objects
+    :type transactions: list[Transaction]
+    """
+    tasks: list[Task] = []
+    for address in transactions:
+        task = asyncio.ensure_future(process_transaction(address))
+        tasks.append(task)
+    await asyncio.gather(*tasks)
+
+
 async def process_address(address: Address):
     """
     The function `process_address` fetches a contract page using an address, parses the contract files
@@ -46,6 +60,20 @@ async def process_address(address: Address):
     page = await fetch_contract_page(address)
     files = parse_contract_files(page)
     write_contract_files(address, files)
+
+
+async def process_transaction(transaction: Transaction):
+    """
+    The function `process_transaction` fetches a transaction page, parses the addresses from it, and
+    processes the addresses.
+    
+    :param transaction: The `transaction` parameter is an instance of the `Transaction` class. It
+    represents a transaction that needs to be processed
+    :type transaction: Transaction
+    """
+    page = await fetch_transaction_page(transaction)
+    addresses = parse_transaction(page)
+    await process_addresses(addresses)
 
 
 async def load_addresses(size: int) -> list[Address]:
