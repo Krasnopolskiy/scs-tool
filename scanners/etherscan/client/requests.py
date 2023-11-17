@@ -3,8 +3,8 @@ from http import HTTPStatus
 from loguru import logger
 
 from common.schemas import Address, Transaction
-from etherscan.client.urls import Endpoint, reverse
-from etherscan.config.client import ClientSessionBuilder
+from scanners.etherscan.client.urls import Endpoint, reverse
+from scanners.etherscan.config.client import ClientSessionBuilder
 
 
 async def fetch_contract_page(address: Address) -> str:

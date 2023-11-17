@@ -1,6 +1,6 @@
 import asyncio
 
-from cli.executors import etherscan
+from cli.executors import execute
 
 if __name__ == "__main__":
-    asyncio.run(etherscan())
+    asyncio.run(execute())

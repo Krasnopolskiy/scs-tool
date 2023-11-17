@@ -1,6 +1,6 @@
 from enum import StrEnum
 
-from etherscan.config import constants
+from scanners.etherscan.config import constants
 
 
 class Endpoint(StrEnum):
