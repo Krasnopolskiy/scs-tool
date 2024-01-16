@@ -2,16 +2,22 @@ import asyncio
 from asyncio import Task
 
 from common.schemas import Address, Transaction
+from common.utils import handle_exceptions
 from scanners.etherscan.client.requests import fetch_contract_page, fetch_transaction_list_page, fetch_transaction_page
 from scanners.etherscan.config import constants
-from scanners.etherscan.process.parsers import parse_contract_files, parse_transaction_list, parse_transaction
+from scanners.etherscan.process.parsers import (
+    parse_contract_bytecode,
+    parse_contract_files,
+    parse_transaction,
+    parse_transaction_list,
+)
 from scanners.etherscan.process.writers import write_contract_files
 
 
 async def scan_addresses(addresses: list[Address]):
     """
     The function `scan_addresses` asynchronously processes a list of addresses.
-    
+
     :param addresses: A list of Address objects
     :type addresses: list[Address]
     """
@@ -22,25 +28,27 @@ async def scan_addresses(addresses: list[Address]):
     await asyncio.gather(*tasks)
 
 
+@handle_exceptions
 async def process_address(address: Address):
     """
     The function `process_address` fetches a contract page using an address, parses the contract files
     from the page, and writes the contract files to a location.
-    
+
     :param address: The `address` parameter is an instance of the `Address` class. It represents the
     address of a contract
     :type address: Address
     """
     page = await fetch_contract_page(address)
-    files = parse_contract_files(page)
-    write_contract_files(address, files)
+    sources = parse_contract_files(page)
+    bytecode = parse_contract_bytecode(page)
+    write_contract_files(address, sources + bytecode)
 
 
 async def load_transactions_addresses(transactions: list[Transaction]) -> list[Address]:
     """
     The function `load_transactions_addresses` asynchronously loads the addresses associated with a list
     of transactions.
-    
+
     :param transactions: A list of Transaction objects
     :type transactions: list[Transaction]
     :return: The function `load_transactions_addresses` returns a list of `Address` objects.
@@ -55,11 +63,12 @@ async def load_transactions_addresses(transactions: list[Transaction]) -> list[A
     return addresses
 
 
+@handle_exceptions
 async def load_transaction_addresses(transaction: Transaction) -> list[Address]:
     """
     The function `load_transaction_addresses` loads a transaction page and parses it to extract a list
     of addresses.
-    
+
     :param transaction: The `transaction` parameter is an instance of the `Transaction` class
     :type transaction: Transaction
     :return: The function `load_transaction_addresses` returns a list of `Address` objects.
@@ -72,7 +81,7 @@ async def load_addresses(size: int) -> list[Address]:
     """
     The function `load_addresses` asynchronously loads a list of addresses by dividing the task into
     multiple pages and using `list_transactions` to retrieve the addresses for each page.
-    
+
     :param size: The `size` parameter represents the total number of addresses to load
     :type size: int
     :return: The function `load_addresses` returns a list of `Address` objects.
@@ -85,11 +94,12 @@ async def load_addresses(size: int) -> list[Address]:
     return [address for task in tasks for address in task.result()]
 
 
+@handle_exceptions
 async def list_transactions(size: int, offset: int) -> list[Address]:
     """
     The function `list_transactions` retrieves a specified number of transactions from a transaction
     list, starting from a given offset.
-    
+
     :param size: The `size` parameter represents the number of transactions to retrieve in each page of
     the transaction list
     :type size: int

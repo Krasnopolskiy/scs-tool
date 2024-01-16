@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from cli.types import address_type, transactions_number_type, transaction_type
+from cli.types import address_type, transaction_type, transactions_number_type
 
 parser = ArgumentParser(
     description="Blockchain Contract Parser",
@@ -32,12 +32,17 @@ analyzer = parser.add_argument_group(title="Scanner options")
 analyzer.add_argument(
     "--etherscan",
     help="Download the source code of contracts using Etherscan",
-    action='store_true',
+    action="store_true",
 )
 
 analyzer = parser.add_argument_group(title="Analyzer options")
 analyzer.add_argument(
-    "--semgrep",
+    "--analyze",
     help="Run static code analysis using Semgrep",
-    action='store_true',
+    action="store_true",
+)
+analyzer.add_argument(
+    "--decompile",
+    help="Run bytecode decompilation using Panoramix",
+    action="store_true",
 )

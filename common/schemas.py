@@ -12,5 +12,6 @@ class ContractFile:
     """
     The ContractFile class represents a contract file with a name and content.
     """
+
     name: str
     content: str

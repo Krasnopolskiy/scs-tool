@@ -21,7 +21,7 @@ def transaction_type(arg: str) -> Transaction:
     """
     The function `transaction_type` takes a string argument, validates it using a TypeAdapter, and
     returns a Transaction object.
-    
+
     :param arg: The parameter `arg` is a string that represents the transaction type
     :type arg: str
     :return: an instance of the `Transaction` class.

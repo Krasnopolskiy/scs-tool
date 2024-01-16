@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from loguru import logger
 
 from common.constants import SOURCE_PATH
@@ -9,7 +7,7 @@ from common.schemas import Address, ContractFile
 def write_contract_files(address: Address, files: list[ContractFile]):
     """
     The function `write_contract_files` writes a list of contract files to a specified address.
-    
+
     :param address: The `address` parameter is of type `Address` and represents the address of a
     contract
     :type address: Address

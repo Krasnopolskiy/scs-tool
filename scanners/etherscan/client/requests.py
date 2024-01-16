@@ -57,7 +57,7 @@ async def fetch_transaction_page(transaction: Transaction) -> str:
     """
     The function fetches a transaction page using an asynchronous HTTP client session and returns the
     page content as a string.
-    
+
     :param transaction: The `transaction` parameter is an instance of the `Transaction` class. It
     represents a specific transaction that needs to be fetched from a server
     :type transaction: Transaction

@@ -10,11 +10,12 @@ from common.schemas import Address
 
 CONFIG = Path(__file__).parent / CONFIG_PATH
 
+
 async def analyze(address: Address) -> CliOutput:
     """
     The `analyze` function runs a semgrep analysis on a given address and returns the analysis report as
     a `CliOutput` object.
-    
+
     :param address: The `address` parameter is of type `Address`. It represents the address of a
     directory where the analysis will be performed
     :type address: Address

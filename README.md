@@ -9,7 +9,7 @@ python main.py -h
 ```text
 usage: main.py [-h] [-a ADDRESSES [ADDRESSES ...]]
                [-t TRANSACTIONS [TRANSACTIONS ...]] [-l LAST] [--etherscan]
-               [--semgrep]
+               [--analyze] [--decompile]
 
 Blockchain Contract Parser
 
@@ -30,7 +30,8 @@ Scanner options:
   --etherscan           Download the source code of contracts using Etherscan
 
 Analyzer options:
-  --semgrep             Run static code analysis using Semgrep
+  --analyze             Run static code analysis using Semgrep
+  --decompile           Run bytecode decompilation using Panoramix
 ```
 
 ## 🤖 Bypass AntiBot

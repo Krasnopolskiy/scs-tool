@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 
 from aiohttp import ClientSession
-from pydantic_settings import SettingsConfigDict, BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class ClientSessionBuilder(BaseSettings):

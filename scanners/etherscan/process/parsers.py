@@ -1,8 +1,11 @@
 import re
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
+from common.constants import BYTECODE_FILE
 from common.schemas import Address, ContractFile
+
+BYTECODE_HEADER = r"Deployed Bytecode"
 
 contract_file_regex = re.compile(r"File (\d+) of (\d+) : ([\w.-]+)")
 address_regex = re.compile(r"/address/(\w+)")
@@ -44,11 +47,29 @@ def parse_contract_files(html: str) -> list[ContractFile]:
     return files
 
 
+def parse_contract_bytecode(html: str) -> list[ContractFile]:
+    """
+    The function `parse_contract_bytecode` extracts bytecode from an HTML document and returns it as a
+    list of `ContractFile` objects.
+
+    :param html: A string containing HTML code
+    :type html: str
+    :return: a list of `ContractFile` objects.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    headers = soup.findAll("h4", attrs={"class": "card-header-title"})
+    code = soup.find(id="dividcode").findChild("pre")
+    for header in headers:  # type: Tag
+        if header.text == BYTECODE_HEADER:
+            code = header.findNext("pre")
+    return [ContractFile(name=BYTECODE_FILE, content=code.text)]
+
+
 def parse_transaction(html: str) -> list[Address]:
     """
     The function `parse_transaction` takes an HTML string as input, extracts addresses from the HTML
     using a regular expression, and returns a list of addresses.
-    
+
     :param html: A string containing HTML code
     :type html: str
     :return: The function `parse_transaction` returns a list of `Address` objects.
