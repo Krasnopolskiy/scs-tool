@@ -3,7 +3,7 @@
 ## 📁 Usage
 
 ```bash
-python main.py -h
+docker compose run analyzer -h
 ```
 
 ```text

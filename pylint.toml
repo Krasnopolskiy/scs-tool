@@ -367,6 +367,7 @@ confidence = ["HIGH", "CONTROL_FLOW", "INFERENCE", "INFERENCE_FAILURE", "UNDEFIN
 # --disable=W".
 disable = [
     "missing-module-docstring",
+    "broad-exception-caught",
 ]
 
 # Enable the message, report, category or checker with the given id(s). You can

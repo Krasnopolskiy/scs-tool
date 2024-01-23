@@ -1,9 +1,10 @@
 import re
+from binascii import unhexlify
 
 from bs4 import BeautifulSoup, Tag
 
 from common.constants import BYTECODE_FILE
-from common.schemas import Address, ContractFile
+from common.schemas import Address, ContractByteFile, ContractSourceFile
 
 BYTECODE_HEADER = r"Deployed Bytecode"
 
@@ -29,32 +30,32 @@ def parse_transaction_list(html: str) -> list[Address]:
     return addresses
 
 
-def parse_contract_files(html: str) -> list[ContractFile]:
+def parse_contract_files(html: str) -> list[ContractSourceFile]:
     """
-    The function `parse_contract_files` takes an HTML string, extracts contract file information, and
-    returns a list of `ContractFile` objects.
+    The function `parse_contract_files` takes an HTML string, extracts contract file names and content,
+    and returns a list of `ContractSourceFile` objects.
 
     :param html: The `html` parameter is a string that represents the HTML content of a webpage
     :type html: str
-    :return: The function `parse_contract_files` returns a list of `ContractFile` objects.
+    :return: The function `parse_contract_files` returns a list of `ContractSourceFile` objects.
     """
     soup = BeautifulSoup(html, "html.parser")
-    files: list[ContractFile] = []
+    files: list[ContractSourceFile] = []
     for tag in soup.find_all(text=contract_file_regex):
         _, _, name = contract_file_regex.match(tag.text).groups()
         content = tag.findNext("pre").text
-        files.append(ContractFile(name=name, content=content))
+        files.append(ContractSourceFile(name=name, content=content))
     return files
 
 
-def parse_contract_bytecode(html: str) -> list[ContractFile]:
+def parse_contract_bytecode(html: str) -> list[ContractByteFile]:
     """
     The function `parse_contract_bytecode` extracts bytecode from an HTML document and returns it as a
-    list of `ContractFile` objects.
+    list of `ContractByteFile` objects.
 
     :param html: A string containing HTML code
     :type html: str
-    :return: a list of `ContractFile` objects.
+    :return: The function `parse_contract_bytecode` is returning a list of `ContractByteFile` objects.
     """
     soup = BeautifulSoup(html, "html.parser")
     headers = soup.findAll("h4", attrs={"class": "card-header-title"})
@@ -62,7 +63,8 @@ def parse_contract_bytecode(html: str) -> list[ContractFile]:
     for header in headers:  # type: Tag
         if header.text == BYTECODE_HEADER:
             code = header.findNext("pre")
-    return [ContractFile(name=BYTECODE_FILE, content=code.text)]
+    bytecode = code.text.replace("0x", "")
+    return [ContractByteFile(name=BYTECODE_FILE, content=unhexlify(bytecode))]
 
 
 def parse_transaction(html: str) -> list[Address]:
