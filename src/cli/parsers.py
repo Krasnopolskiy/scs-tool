@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from cli.types import address_type, transaction_type, transactions_number_type
 
 parser = ArgumentParser(
-    description="Blockchain Contract Parser",
+    description="Smart Contract Security Tool",
 )
 
 scanner = parser.add_argument_group(title="Address loader options")

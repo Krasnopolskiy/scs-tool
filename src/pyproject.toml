@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "ContractSentry"
+version = "0.1.0"
+description = "Smart Contract Security Tool"
+authors = ["Krasnopolsky Ivan <i1.krasnopolskiy@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+aiohttp = "^3.9.1"
+beautifulsoup4 = "^4.12.3"
+loguru = "^0.7.2"
+nest-asyncio = "^1.6.0"
+panoramix-decompiler = "^0.6.1"
+pydantic = "^2.5.3"
+pydantic-settings = "^2.1.0"
+python = "^3.10"
+semgrep = "^1.58.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+isort = "^5.13.2"
+pylint = "^3.0.3"
+toml-sort = "^0.23.1"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
+
+[tool.black]
+exclude = '(\.git|\.cache|\.venv|\.idea|__pycache__)'
+line-length = 120
+
+[tool.isort]
+line_length = 120
+profile = "black"
+skip = ["**/__pycache__/**", ".cache", ".git", ".idea", ".venv"]

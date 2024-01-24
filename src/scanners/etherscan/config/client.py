@@ -1,7 +1,9 @@
 from contextlib import asynccontextmanager
 
 from aiohttp import ClientSession
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
+
+from scanners.etherscan.config import constants
 
 
 class ClientSessionBuilder(BaseSettings):
@@ -10,13 +12,8 @@ class ClientSessionBuilder(BaseSettings):
     configuration, user agent, and session management.
     """
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
-
     cf_clearance: str
-    user_agent: str = (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/118.0.0.0 Safari/537.36"
-    )
+    user_agent: str = constants.USER_AGENT
 
     @asynccontextmanager
     async def session(self) -> ClientSession:

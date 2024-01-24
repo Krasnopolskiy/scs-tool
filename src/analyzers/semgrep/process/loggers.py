@@ -11,4 +11,4 @@ def log_report(output: CliOutput):
     :type output: CliOutput
     """
     for result in output.results:
-        logger.warning("{}: {}", result.path.value, result.extra.message)
+        logger.warning("{}:{} {}", result.path.value, result.start.line, result.extra.message)

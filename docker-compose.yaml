@@ -2,6 +2,11 @@ version: '3.8'
 
 services:
   analyzer:
-    build: .
+    build:
+      context: ./src
+    environment:
+      - BASE_PATH=/data
+    env_file:
+      - ./deploy/config/.env
     volumes:
-      - ./sources:/sources
+      - ./data:/data

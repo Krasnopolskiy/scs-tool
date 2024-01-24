@@ -5,6 +5,7 @@
 # User-specific stuff
 .idea/
 sources/
+data/
 
 # CMake
 cmake-build-*/
@@ -150,7 +151,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+deploy/config/.env
 .venv
 env/
 venv/

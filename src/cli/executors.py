@@ -54,18 +54,19 @@ async def scan(args: Namespace, addresses: list[Address]):
 
 async def analyze(args: Namespace, addresses: list[Address]):
     """
-    The `analyze` function analyzes a list of addresses using semgrep.
-
-    :param args: Namespace object that contains the command-line arguments passed to the program
+    The `analyze` function takes in command line arguments and a list of addresses, and performs
+    decompilation and analysis on the addresses based on the provided arguments.
+    
+    :param args: Namespace object that contains the command-line arguments passed to the script
     :type args: Namespace
     :param addresses: A list of Address objects
     :type addresses: list[Address]
     """
     nest_asyncio.apply()
-    if args.analyze:
-        await analyze_addresses(addresses)
     if args.decompile:
         await decompile_addresses(addresses)
+    if args.analyze:
+        await analyze_addresses(addresses)
 
 
 async def execute():
