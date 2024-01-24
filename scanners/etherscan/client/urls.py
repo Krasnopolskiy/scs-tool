@@ -1,9 +1,9 @@
-from enum import StrEnum
+from enum import Enum
 
 from scanners.etherscan.config import constants
 
 
-class Endpoint(StrEnum):
+class Endpoint(str, Enum):
     """
     The class defines a set of endpoints for a web API.
     """
