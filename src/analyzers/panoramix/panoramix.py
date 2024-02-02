@@ -3,7 +3,7 @@ import sys
 from loguru import logger
 from panoramix.decompiler import Decompilation, decompile_bytecode
 
-from common.constants import BYTECODE_FILE, SOURCE_PATH
+from common.config.constants import BYTECODE_FILE, SOURCE_PATH
 from common.schemas import Address
 
 sys.set_int_max_str_digits(2**20)

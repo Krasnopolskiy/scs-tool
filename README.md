@@ -8,23 +8,20 @@ docker compose run analyzer -h
 
 ```text
 usage: main.py [-h] [-a ADDRESSES [ADDRESSES ...]]
-               [-t TRANSACTIONS [TRANSACTIONS ...]] [-l LAST] [--etherscan]
-               [--analyze] [--decompile]
+               [-t TRANSACTIONS [TRANSACTIONS ...]] [-l LAST]
+               [--etherscan] [--analyze] [--decompile]
 
-Blockchain Contract Parser
+Smart Contract Security Tool
 
 options:
   -h, --help            show this help message and exit
 
 Address loader options:
   -a ADDRESSES [ADDRESSES ...], --addresses ADDRESSES [ADDRESSES ...]
-                        List of address IDs containing the contracts to be
-                        parsed
+                        List of address IDs containing the contracts to be parsed
   -t TRANSACTIONS [TRANSACTIONS ...], --transactions TRANSACTIONS [TRANSACTIONS ...]
-                        List of transactions IDs containing the contracts to
-                        be parsed
-  -l LAST, --last LAST  The number of last transactions containing contracts
-                        to be parsed <= 100_000
+                        List of transactions IDs containing the contracts to be parsed
+  -l LAST, --last LAST  The number of last transactions containing contracts to be parsed <= 100_000
 
 Scanner options:
   --etherscan           Download the source code of contracts using Etherscan

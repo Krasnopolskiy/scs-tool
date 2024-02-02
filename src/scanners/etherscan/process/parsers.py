@@ -3,7 +3,7 @@ from binascii import unhexlify
 
 from bs4 import BeautifulSoup, Tag
 
-from common.constants import BYTECODE_FILE
+from common.config.constants import BYTECODE_FILE
 from common.schemas import Address, ContractByteFile, ContractSourceFile
 
 BYTECODE_HEADER = r"Deployed Bytecode"

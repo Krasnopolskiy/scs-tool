@@ -1,7 +1,10 @@
 from loguru import logger
 
-from common.constants import SOURCE_PATH
+from common.config.constants import SOURCE_PATH
+from common.minio import MinioClient
 from common.schemas import Address, ContractBaseFile
+
+minio = MinioClient()
 
 
 def write_contract_files(address: Address, files: list[ContractBaseFile]):
@@ -16,13 +19,15 @@ def write_contract_files(address: Address, files: list[ContractBaseFile]):
     :return: If the `files` list is empty, the function will return without performing any further
     actions.
     """
-    logger.info("Writing {} files from contract {}", len(files), address)
     if not files:
+        logger.warning("No files for {} saved", address)
         return
+    logger.info("Writing {} files from contract {}", len(files), address)
     path = SOURCE_PATH / address
     for file in files:
-        target = path / file.name
+        target = file.get_path(path)
         target.parent.mkdir(parents=True, exist_ok=True)
         with target.open(**file.write_params) as out:
             out.write(file.content)
+        minio.write(target, file.content)
     logger.info("Contract {} files saved", address)

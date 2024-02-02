@@ -1,8 +1,11 @@
 from abc import ABC
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Annotated
 
 from pydantic import Field
+
+from common.config.constants import BYTECODE_PATH
 
 Address = Annotated[str, Field(pattern=r"^0x[a-fA-F0-9]{40}$")]
 Transaction = Annotated[str, Field(pattern=r"^0x[a-fA-F0-9]{64}$")]
@@ -17,6 +20,16 @@ class ContractBaseFile(ABC):
     name: str
     content: str | bytes
     write_params: dict
+
+    def get_path(self, path: Path) -> Path:
+        """
+        The function takes a path and returns a new path by appending the name of the object.
+        
+        :param path: The `path` parameter is of type `Path`. It represents a file or directory path
+        :type path: Path
+        :return: the concatenation of the input `path` and the `name` attribute of the object.
+        """
+        return path / self.name
 
 
 @dataclass
@@ -39,3 +52,15 @@ class ContractByteFile(ContractBaseFile):
 
     content: bytes
     write_params: dict = field(default_factory=lambda: {"mode": "wb"})
+
+    def get_path(self, path: Path) -> Path:
+        """
+        The function returns the path to a bytecode file by appending the bytecode path and the name of
+        the object.
+        
+        :param path: The `path` parameter is of type `Path`. It represents the base directory path where
+        the file will be located
+        :type path: Path
+        :return: the concatenation of the `path`, `BYTECODE_PATH`, and `self.name` as a `Path` object.
+        """
+        return path / BYTECODE_PATH / self.name
