@@ -3,7 +3,7 @@ from http import HTTPStatus
 from loguru import logger
 
 from common.schemas import Address, Transaction
-from scanners.etherscan.client.urls import Endpoint, reverse
+from scanners.etherscan.api.urls import Endpoint, reverse
 from scanners.etherscan.config.client import ClientSessionBuilder
 
 
@@ -17,14 +17,14 @@ async def fetch_contract_page(address: Address) -> str:
     :return: The function `fetch_contract_page` returns a string.
     """
     async with ClientSessionBuilder().session() as session:
-        logger.info("Fetching contract {}", address)
+        logger.info("[{}] Fetching contract", address)
         url = reverse(Endpoint.ADDRESS, address=address)
         async with session.get(url) as response:
             text = await response.text()
             if response.status != HTTPStatus.OK:
-                logger.error("Error during fetching contract {}: {}: {}", address, response.status, text)
+                logger.error("[{}] Error during fetching contract {}: {}", address, response.status, text)
                 raise IOError(f"Server returned {response.status}: {text}")
-            logger.info("Contract {} fetched successfully", address)
+            logger.info("[{}] Contract fetched successfully", address)
             return text
 
 
@@ -64,12 +64,12 @@ async def fetch_transaction_page(transaction: Transaction) -> str:
     :return: The function `fetch_transaction_page` returns a string.
     """
     async with ClientSessionBuilder().session() as session:
-        logger.info("Fetching transaction {}", transaction)
+        logger.info("[{}] Fetching transaction", transaction)
         url = reverse(Endpoint.TRANSACTION, transaction=transaction)
         async with session.get(url) as response:
             text = await response.text()
             if response.status != HTTPStatus.OK:
-                logger.error("Error during fetching transaction {}: {}: {}", transaction, response.status, text)
+                logger.error("[{}] Error during fetching transaction {}: {}", transaction, response.status, text)
                 raise IOError(f"Server returned {response.status}: {text}")
-            logger.info("Transaction {} fetched successfully", transaction)
+            logger.info("[{}] Transaction fetched successfully", transaction)
             return text

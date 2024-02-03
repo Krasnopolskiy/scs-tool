@@ -1,27 +1,22 @@
 import sys
 
 from loguru import logger
-from panoramix.decompiler import Decompilation, decompile_bytecode
+from panoramix.decompiler import decompile_bytecode
 
+from analyzers.panoramix.schemas import ContractPseudocodeFile, ContractAssemblerFile
 from common.config.constants import BYTECODE_FILE, SOURCE_PATH
 from common.schemas import Address
 
 sys.set_int_max_str_digits(2**20)
 
 
-async def decompile(address: Address) -> Decompilation:
-    """
-    The `decompile` function takes an address, reads the bytecode from a file, and returns the
-    decompiled code.
-
-    :param address: The `address` parameter is the address of the smart contract that you want to
-    decompile
-    :type address: Address
-    :return: The function `decompile` is returning a `Decompilation` object.
-    """
+async def decompile(address: Address) -> tuple[ContractPseudocodeFile, ContractAssemblerFile]:
     target = SOURCE_PATH / address / BYTECODE_FILE
-    target.parent.mkdir(parents=True, exist_ok=True)
-    logger.info("Running panoramix decompilation on {}", address)
+    if not target.exists():
+        logger.info("[{}] Nothing to decompile", address)
+        return tuple()
+    logger.info("[{}] Running panoramix decompilation", address)
     with target.open("rb") as contract:
         code = contract.read().hex()
-        return decompile_bytecode(code)
+        decompilation = decompile_bytecode(code)
+    return ContractPseudocodeFile(content=decompilation), ContractAssemblerFile(content=decompilation)

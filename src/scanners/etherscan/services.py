@@ -3,15 +3,14 @@ from asyncio import Task
 
 from common.schemas import Address, Transaction
 from common.utils import handle_exceptions
-from scanners.etherscan.client.requests import fetch_contract_page, fetch_transaction_list_page, fetch_transaction_page
+from scanners.etherscan.api.requests import fetch_contract_page, fetch_transaction_list_page, fetch_transaction_page
 from scanners.etherscan.config import constants
-from scanners.etherscan.process.parsers import (
+from scanners.etherscan.parsers import (
     parse_contract_bytecode,
     parse_contract_files,
     parse_transaction,
     parse_transaction_list,
 )
-from scanners.etherscan.process.writers import write_contract_files
 
 
 async def scan_addresses(addresses: list[Address]):
@@ -30,18 +29,11 @@ async def scan_addresses(addresses: list[Address]):
 
 @handle_exceptions
 async def process_address(address: Address):
-    """
-    The function `process_address` fetches a contract page using an address, parses the contract files
-    from the page, and writes the contract files to a location.
-
-    :param address: The `address` parameter is an instance of the `Address` class. It represents the
-    address of a contract
-    :type address: Address
-    """
     page = await fetch_contract_page(address)
     sources = parse_contract_files(page)
     bytecode = parse_contract_bytecode(page)
-    write_contract_files(address, sources + bytecode)
+    for file in sources + bytecode:
+        file.write(address)
 
 
 async def load_transactions_addresses(transactions: list[Transaction]) -> list[Address]:

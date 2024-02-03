@@ -3,8 +3,8 @@ from binascii import unhexlify
 
 from bs4 import BeautifulSoup, Tag
 
-from common.config.constants import BYTECODE_FILE
-from common.schemas import Address, ContractByteFile, ContractSourceFile
+from common.schemas import Address
+from scanners.etherscan.schemas import ContractSourceFile, ContractByteFile
 
 BYTECODE_HEADER = r"Deployed Bytecode"
 
@@ -64,7 +64,7 @@ def parse_contract_bytecode(html: str) -> list[ContractByteFile]:
         if header.text == BYTECODE_HEADER:
             code = header.findNext("pre")
     bytecode = code.text.replace("0x", "")
-    return [ContractByteFile(name=BYTECODE_FILE, content=unhexlify(bytecode))]
+    return [ContractByteFile(content=unhexlify(bytecode))]
 
 
 def parse_transaction(html: str) -> list[Address]:
