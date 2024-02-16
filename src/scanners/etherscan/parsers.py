@@ -1,7 +1,8 @@
+import binascii
 import re
-from binascii import unhexlify
 
 from bs4 import BeautifulSoup, Tag
+from loguru import logger
 
 from common.schemas import Address
 from scanners.etherscan.schemas import ContractSourceFile, ContractByteFile
@@ -48,14 +49,16 @@ def parse_contract_files(html: str) -> list[ContractSourceFile]:
     return files
 
 
-def parse_contract_bytecode(html: str) -> list[ContractByteFile]:
+def parse_contract_bytecode(html: str, address: Address) -> list[ContractByteFile]:
     """
-    The function `parse_contract_bytecode` extracts bytecode from an HTML document and returns it as a
-    list of `ContractByteFile` objects.
-
-    :param html: A string containing HTML code
+    The function `parse_contract_bytecode` parses HTML to extract bytecode and returns it as a list of
+    `ContractByteFile` objects.
+    
+    :param html: The `html` parameter is a string that represents the HTML content of a web page
     :type html: str
-    :return: The function `parse_contract_bytecode` is returning a list of `ContractByteFile` objects.
+    :param address: The `address` parameter is the address of a contract. It is of type `Address`
+    :type address: Address
+    :return: The function `parse_contract_bytecode` returns a list of `ContractByteFile` objects.
     """
     soup = BeautifulSoup(html, "html.parser")
     headers = soup.findAll("h4", attrs={"class": "card-header-title"})
@@ -63,8 +66,13 @@ def parse_contract_bytecode(html: str) -> list[ContractByteFile]:
     for header in headers:  # type: Tag
         if header.text == BYTECODE_HEADER:
             code = header.findNext("pre")
-    bytecode = code.text.replace("0x", "")
-    return [ContractByteFile(content=unhexlify(bytecode))]
+    try:
+        bytecode = code.text.replace("0x", "")
+        content = binascii.unhexlify(bytecode)
+    except (AttributeError, binascii.Error):
+        logger.warning("[{}] No bytecode found", address)
+        content = b""
+    return [ContractByteFile(content)]
 
 
 def parse_transaction(html: str) -> list[Address]:
@@ -81,5 +89,6 @@ def parse_transaction(html: str) -> list[Address]:
     for tag in soup.find_all(href=address_regex):
         if tag.find("span"):  # Donation address
             continue
-        addresses.extend(address_regex.match(tag["href"]).groups())
+        if tag.findPrevious("i", attrs={"aria-label": "Contract"}):
+            addresses.extend(address_regex.match(tag["href"]).groups())
     return addresses

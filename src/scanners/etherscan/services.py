@@ -31,7 +31,7 @@ async def scan_addresses(addresses: list[Address]):
 async def process_address(address: Address):
     page = await fetch_contract_page(address)
     sources = parse_contract_files(page)
-    bytecode = parse_contract_bytecode(page)
+    bytecode = parse_contract_bytecode(page, address)
     for file in sources + bytecode:
         file.write(address)
 
