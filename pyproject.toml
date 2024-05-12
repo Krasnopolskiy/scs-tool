@@ -6,16 +6,19 @@ authors = ["Krasnopolsky Ivan <i1.krasnopolskiy@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-aiohttp = "^3.9.3"
+aiohttp = "^3.9.5"
 beautifulsoup4 = "^4.12.3"
+fastapi = "^0.111.0"
 loguru = "^0.7.2"
-minio = "^7.2.4"
+minio = "^7.2.7"
 nest-asyncio = "^1.6.0"
 panoramix-decompiler = "^0.6.1"
-pydantic = "^2.6.1"
-pydantic-settings = "^2.1.0"
+pydantic = "^2.7.3"
+pydantic-settings = "^2.3.1"
 python = "^3.10"
-semgrep = "^1.61.1"
+semgrep = "^1.75.0"
+mythril = "^0.24.8"
+slither = "^0.3.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"

@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from cli.types import address_type, transaction_type, transactions_number_type
+from cli.types import address_type, transaction_type
 
 parser = ArgumentParser(
     description="Smart Contract Security Tool",
@@ -21,12 +21,6 @@ scanner.add_argument(
     type=transaction_type,
     help="List of transactions IDs containing the contracts to be parsed",
 )
-scanner.add_argument(
-    "-l",
-    "--last",
-    type=transactions_number_type,
-    help="The number of last transactions containing contracts to be parsed <= 100_000",
-)
 
 analyzer = parser.add_argument_group(title="Scanner options")
 analyzer.add_argument(
@@ -37,12 +31,17 @@ analyzer.add_argument(
 
 analyzer = parser.add_argument_group(title="Analyzer options")
 analyzer.add_argument(
-    "--analyze",
+    "--decompile",
+    help="Run bytecode decompilation using Panoramix",
+    action="store_true",
+)
+analyzer.add_argument(
+    "--semgrep",
     help="Run static code analysis using Semgrep",
     action="store_true",
 )
 analyzer.add_argument(
-    "--decompile",
-    help="Run bytecode decompilation using Panoramix",
+    "--mythril",
+    help="Run static code analysis using Mythril",
     action="store_true",
 )

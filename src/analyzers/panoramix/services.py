@@ -6,10 +6,18 @@ from common.schemas import Address
 from common.utils import handle_exceptions
 
 
-@handle_exceptions
+@handle_exceptions()
 async def decompile_address(address: Address):
-    decompilation = await decompile(address)
-    for file in decompilation:
+    """
+    This Python function asynchronously decompiles an address and writes the decompiled files.
+
+    :param address: It looks like you have a function `decompile_address` that takes an `Address` object
+    as a parameter. The function is asynchronous and it calls a `decompile` function to decompile the
+    address. After decompiling, it iterates over the decompiled files and writes the address to
+    :type address: Address
+    """
+    decompiled = await decompile(address)
+    for file in decompiled:
         file.write(address)
 
 

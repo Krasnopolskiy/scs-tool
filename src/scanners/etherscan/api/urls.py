@@ -4,13 +4,10 @@ from scanners.etherscan.config import constants
 
 
 class Endpoint(str, Enum):
-    """
-    The class defines a set of endpoints for a web API.
-    """
-
     TRANSACTION_LIST = "/txsInternal?ps={size}&p={offset}"
     TRANSACTION = "/tx/{transaction}"
     ADDRESS = "/address/{address}"
+    SOURCE_CODE = "/api?module=contract&action=getsourcecode&address={address}&apikey={key}"
 
 
 def reverse(endpoint: Endpoint, **kwargs) -> str:
@@ -25,7 +22,8 @@ def reverse(endpoint: Endpoint, **kwargs) -> str:
     :return: a string that is the concatenation of the `constants.BASE_URL` and the formatted `endpoint`
     using the provided `kwargs`.
     """
+    base = constants.BASE_API_URL if "api" in endpoint else constants.BASE_URL
     try:
-        return constants.BASE_URL + endpoint.format(**kwargs)
+        return base + endpoint.format(**kwargs)
     except KeyError as exc:
         raise KeyError("Invalid reverse params") from exc

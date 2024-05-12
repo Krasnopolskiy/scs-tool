@@ -6,8 +6,18 @@ from common.schemas import Address
 from common.utils import handle_exceptions
 
 
-@handle_exceptions
+@handle_exceptions()
 async def analyze_address(address: Address):
+    """
+    This Python function `analyze_address` asynchronously analyzes an address and writes a report based
+    on the analysis.
+
+    :param address: The `analyze_address` function is an asynchronous function that takes an `Address`
+    object as a parameter. The function calls the `analyze` function with the provided address and
+    awaits the result. The `report` object is then used to write the analysis report for the given
+    address
+    :type address: Address
+    """
     report = await analyze(address)
     report.write(address)
 

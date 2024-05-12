@@ -1,5 +1,6 @@
 from pathlib import Path
 
-CONFIG_PATH = "rules/solidity/security"
-REPORT_PATH = Path("report")
-REPORT_FILE = REPORT_PATH / "report.json"
+from common.constants import REPORT_PATH
+
+CONFIG_PATH = Path("rules") / "solidity" / "security"
+SEMGREP_REPORT_FILE = REPORT_PATH / "semgrep.json"

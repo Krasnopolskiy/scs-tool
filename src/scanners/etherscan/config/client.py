@@ -1,26 +1,23 @@
 from contextlib import asynccontextmanager
+from random import choice
 
 from aiohttp import ClientSession
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 from scanners.etherscan.config import constants
 
 
 class ClientSessionBuilder(BaseSettings):
-    """
-    The `ClientSessionBuilder` class represents client settings for a web application, including model
-    configuration, user agent, and session management.
-    """
-
-    cf_clearance: str
+    cf_clearance: str = ""
     user_agent: str = constants.USER_AGENT
+    keys: list[str] = Field(default=list(), alias="API_KEYS")
 
     @asynccontextmanager
     async def session(self) -> ClientSession:
         """
-        The function creates a session using the `ClientSession` class from the `aiohttp` library, and
-        yields the session for use in a coroutine, ensuring that the session is closed after the
-        coroutine is finished.
+        The function `session` creates a ClientSession object with specified cookies and headers, yields
+        the session, and closes the session when done.
         """
         session = ClientSession(cookies=self.cookies, headers=self.headers)
         try:
@@ -46,3 +43,14 @@ class ClientSessionBuilder(BaseSettings):
         user_agent attribute of the object.
         """
         return {"User-Agent": self.user_agent}
+
+    @property
+    def apikey(self) -> str:
+        """
+        The function `apikey` returns a randomly chosen API key from a list of keys.
+        :return: A randomly chosen API key from the list of keys stored in the `self.keys` attribute.
+        """
+        return choice(self.keys)
+
+
+session_builder = ClientSessionBuilder()

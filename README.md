@@ -7,9 +7,7 @@ docker compose run analyzer -h
 ```
 
 ```text
-usage: main.py [-h] [-a ADDRESSES [ADDRESSES ...]]
-               [-t TRANSACTIONS [TRANSACTIONS ...]] [-l LAST]
-               [--etherscan] [--analyze] [--decompile]
+usage: main.py [-h] [-a ADDRESSES [ADDRESSES ...]] [-t TRANSACTIONS [TRANSACTIONS ...]] [--etherscan] [--decompile] [--semgrep] [--mythril]
 
 Smart Contract Security Tool
 
@@ -21,14 +19,14 @@ Address loader options:
                         List of address IDs containing the contracts to be parsed
   -t TRANSACTIONS [TRANSACTIONS ...], --transactions TRANSACTIONS [TRANSACTIONS ...]
                         List of transactions IDs containing the contracts to be parsed
-  -l LAST, --last LAST  The number of last transactions containing contracts to be parsed <= 100_000
 
 Scanner options:
   --etherscan           Download the source code of contracts using Etherscan
 
 Analyzer options:
-  --analyze             Run static code analysis using Semgrep
   --decompile           Run bytecode decompilation using Panoramix
+  --semgrep             Run static code analysis using Semgrep
+  --mythril             Run static code analysis using Mythril
 ```
 
 ## 🤖 Bypass AntiBot
