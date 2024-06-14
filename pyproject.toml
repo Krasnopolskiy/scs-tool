@@ -6,6 +6,7 @@ authors = ["Krasnopolsky Ivan <i1.krasnopolskiy@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
+python = ">=3.10, <3.12"
 aiohttp = "^3.9.5"
 beautifulsoup4 = "^4.12.3"
 fastapi = "^0.111.0"
@@ -15,10 +16,10 @@ nest-asyncio = "^1.6.0"
 panoramix-decompiler = "^0.6.1"
 pydantic = "^2.7.3"
 pydantic-settings = "^2.3.1"
-python = "^3.10"
 semgrep = "^1.75.0"
 mythril = "^0.24.8"
-slither = "^0.3.0"
+docker = "^7.1.0"
+evm-cfg-builder = "^0.3.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"
@@ -38,3 +39,14 @@ line-length = 120
 line_length = 120
 profile = "black"
 skip = ["**/__pycache__/**", ".cache", ".git", ".idea", ".venv"]
+
+[tool.pylint]
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "broad-exception-caught",
+    "too-few-public-methods",
+    "use-list-literal",
+    "duplicate-code",
+]
+max-line-length = 120

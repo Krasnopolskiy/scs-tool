@@ -7,7 +7,8 @@ docker compose run analyzer -h
 ```
 
 ```text
-usage: main.py [-h] [-a ADDRESSES [ADDRESSES ...]] [-t TRANSACTIONS [TRANSACTIONS ...]] [--etherscan] [--decompile] [--semgrep] [--mythril]
+usage: main.py [-h] [-a ADDRESSES [ADDRESSES ...]] [-t TRANSACTIONS [TRANSACTIONS ...]]
+               [--etherscan] [--decompile] [--semgrep] [--mythril] [--slither]
 
 Smart Contract Security Tool
 
@@ -27,6 +28,7 @@ Analyzer options:
   --decompile           Run bytecode decompilation using Panoramix
   --semgrep             Run static code analysis using Semgrep
   --mythril             Run static code analysis using Mythril
+  --slither             Run static code analysis using Slither
 ```
 
 ## 🤖 Bypass AntiBot

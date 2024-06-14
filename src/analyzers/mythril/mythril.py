@@ -6,8 +6,8 @@ from loguru import logger
 from mythril.interfaces.cli import load_code, set_config
 from mythril.mythril import MythrilAnalyzer, MythrilDisassembler
 
-from analyzers.myth.config import ARGS
-from analyzers.myth.schemas import MythrilReportFile
+from analyzers.mythril.config import ARGS
+from analyzers.mythril.schemas import MythrilReportFile
 from common.constants import SOURCE_PATH
 from common.schemas import Address
 from solc.solc import get_solc_binary

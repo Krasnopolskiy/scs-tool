@@ -1,8 +1,8 @@
-SOURCES = $(shell git ls-files '*.py')
+SOURCES = $(shell git diff --name-only --diff-filter=AM HEAD | grep -E '\.py$$')
 
 lint:
-	pylint --rcfile=pylint.toml $(SOURCES)
+	poetry run pylint $(SOURCES)
 
 format:
-	black $(SOURCES)
-	isort $(SOURCES)
+	poetry run black $(SOURCES)
+	poetry run isort $(SOURCES)

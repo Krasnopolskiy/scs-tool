@@ -4,9 +4,10 @@ from asyncio import Task
 
 import nest_asyncio
 
-from analyzers.myth.services import analyze_addresses as mythril_analyzes
+from analyzers.mythril.services import analyze_addresses as mythril_analyzes
 from analyzers.panoramix.services import decompile_addresses
 from analyzers.semgrep.services import analyze_addresses as semgrep_analyzes
+from analyzers.slither.services import analyze_addresses as slither_analyzes
 from cli.parsers import parser
 from common.schemas import Address
 from scanners.etherscan.services import load_transactions_addresses, scan_addresses
@@ -55,25 +56,30 @@ async def scan(args: Namespace, addresses: list[Address]):
 
 async def analyze(args: Namespace, addresses: list[Address]):
     """
-    The `analyze` function in Python asynchronously performs various analyses on a list of addresses
-    based on the provided arguments.
+    The `analyze` function asynchronously performs various analyses on a list of addresses based on the
+    provided arguments.
 
-    :param args: Namespace object containing user arguments passed to the function. It likely includes
-    options such as decompile, semgrep, and mythril, which determine which analyses to perform
+    :param args: Namespace object containing command-line arguments parsed by argparse
     :type args: Namespace
     :param addresses: The `addresses` parameter in the `analyze` function is a list of `Address`
-    objects. These objects likely represent addresses that need to be analyzed in some way, such as
-    decompiling, running Semgrep analysis, or running Mythril analysis. The function processes these
-    addresses based on the arguments
+    objects. These objects likely represent addresses that need to be analyzed in some way, such as in
+    the context of security analysis tools like Semgrep, Mythril, and Slither. The function processes
+    these addresses based
     :type addresses: list[Address]
     """
     nest_asyncio.apply()
     if args.decompile:
         await decompile_addresses(addresses)
+
+    tasks = []
     if args.semgrep:
-        await semgrep_analyzes(addresses)
+        tasks.append(semgrep_analyzes(addresses))
     if args.mythril:
-        await mythril_analyzes(addresses)
+        tasks.append(mythril_analyzes(addresses))
+    if args.slither:
+        tasks.append(slither_analyzes(addresses))
+
+    await asyncio.gather(*tasks)
 
 
 async def execute():

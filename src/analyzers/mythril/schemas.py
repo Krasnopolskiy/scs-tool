@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from loguru import logger
 from mythril.analysis.report import Report
 
-from analyzers.myth.constants import MYTHRIL_REPORT_FILE
+from analyzers.mythril.constants import MYTHRIL_REPORT_FILE
 from common.schemas import Address, BaseFile
 
 

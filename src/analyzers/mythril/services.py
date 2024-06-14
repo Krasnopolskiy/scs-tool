@@ -1,7 +1,7 @@
 import asyncio
 from asyncio import Task
 
-from analyzers.myth.myth import analyze
+from analyzers.mythril.mythril import analyze
 from common.schemas import Address
 from common.utils import handle_exceptions
 
@@ -9,13 +9,12 @@ from common.utils import handle_exceptions
 @handle_exceptions()
 async def analyze_address(address: Address):
     """
-    This Python function `analyze_address` asynchronously analyzes an address and writes a report based
-    on the analysis.
+    The function `analyze_address` asynchronously analyzes an address and writes a report based on the
+    analysis.
 
     :param address: The `analyze_address` function is an asynchronous function that takes an `Address`
-    object as a parameter. The function calls the `analyze` function asynchronously to generate a report
-    based on the provided address. Finally, the report is written using the `write` method of the report
-    object
+    object as a parameter. The function awaits the result of the `analyze` function with the given
+    address and then writes a report based on the analysis
     :type address: Address
     """
     report = await analyze(address)
@@ -27,10 +26,10 @@ async def analyze_addresses(addresses: list[Address]):
     The function `analyze_addresses` asynchronously analyzes a list of addresses using `analyze_address`
     function.
 
-    :param addresses: The `addresses` parameter is a list of `Address` objects. Each `Address` object
-    likely contains information about a specific address, such as street name, city, state, and postal
-    code. The `analyze_addresses` function takes a list of these `Address` objects and asynchronously
-    analyzes each address
+    :param addresses: It looks like the `analyze_addresses` function is an asynchronous function that
+    takes a list of `Address` objects as input. The function creates a list of tasks using
+    `asyncio.ensure_future` to analyze each address concurrently. Finally, it waits for all tasks to
+    complete using `asyncio.gather
     :type addresses: list[Address]
     """
     tasks: list[Task] = []

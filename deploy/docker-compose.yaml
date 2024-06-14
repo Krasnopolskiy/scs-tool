@@ -1,25 +1,9 @@
 name: scs-tool
 
 services:
-  analyzer:
-    build:
-      context: ..
-      dockerfile: ./deploy/Dockerfile
-    environment:
-      - BASE_PATH=/data
-      - MINIO_HOST=minio
-      - S3_ENABLED=yes
-    depends_on:
-      createbuckets:
-        condition: service_completed_successfully
-    env_file:
-      - ./config/.env
-    volumes:
-      - ./data/sources:/data
-
   minio:
     image: minio/minio
-    hostname: sentry.minio
+    hostname: scs.minio
     command: server /data --console-address ":9001"
     env_file:
       - ./config/.env
