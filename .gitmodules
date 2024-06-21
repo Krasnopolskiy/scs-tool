@@ -1,3 +1,0 @@
-[submodule "src/analyzers/semgrep/rules"]
-	path = src/analyzers/semgrep/rules
-	url = https://github.com/Decurity/semgrep-smart-contracts.git

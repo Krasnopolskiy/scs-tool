@@ -11,6 +11,7 @@ from analyzers.slither.services import analyze_addresses as slither_analyzes
 from cli.parsers import parser
 from common.schemas import Address
 from scanners.etherscan.services import load_transactions_addresses, scan_addresses
+from scanners.local.services import load_local_addresses
 
 
 async def get_addresses(args: Namespace) -> list[Address]:
@@ -33,6 +34,9 @@ async def get_addresses(args: Namespace) -> list[Address]:
 
     if args.transactions:
         tasks.append(asyncio.ensure_future(load_transactions_addresses(args.transactions)))
+
+    if args.local:
+        tasks.append(asyncio.ensure_future(load_local_addresses()))
 
     addresses: list[Address] = []
     for result in await asyncio.gather(*tasks):

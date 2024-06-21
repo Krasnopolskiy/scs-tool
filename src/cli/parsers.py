@@ -6,24 +6,30 @@ parser = ArgumentParser(
     description="Smart Contract Security Tool",
 )
 
-scanner = parser.add_argument_group(title="Address loader options")
-scanner.add_argument(
+loader = parser.add_argument_group(title="Address loader options")
+loader.add_argument(
     "-a",
     "--addresses",
     nargs="+",
     type=address_type,
     help="List of address IDs containing the contracts to be parsed",
 )
-scanner.add_argument(
+loader.add_argument(
     "-t",
     "--transactions",
     nargs="+",
     type=transaction_type,
     help="List of transactions IDs containing the contracts to be parsed",
 )
+loader.add_argument(
+    "-l",
+    "--local",
+    help="Load the addresses of contracts containing in the local file system",
+    action="store_true",
+)
 
-analyzer = parser.add_argument_group(title="Scanner options")
-analyzer.add_argument(
+scanner = parser.add_argument_group(title="Scanner options")
+scanner.add_argument(
     "--etherscan",
     help="Download the source code of contracts using Etherscan",
     action="store_true",

@@ -2,10 +2,9 @@ from pathlib import Path
 
 from loguru import logger
 from semgrep.run_scan import run_scan_and_return_json
-from semgrep.semgrep_interfaces.semgrep_output_v1 import CliOutput
 
 from analyzers.semgrep.constants import CONFIG_PATH
-from analyzers.semgrep.schemas import SemgrepReportFile
+from analyzers.semgrep.schemas import Report, SemgrepReportFile
 from common.constants import SOURCE_PATH
 from common.schemas import Address
 
@@ -29,4 +28,4 @@ async def analyze(address: Address) -> SemgrepReportFile | None:
         return None
     logger.info("[{}] Running semgrep analysis", address)
     report = run_scan_and_return_json(config=CONFIG, targets=[target], no_git_ignore=True)
-    return SemgrepReportFile(content=CliOutput.from_json(report))
+    return SemgrepReportFile(content=Report(**report))

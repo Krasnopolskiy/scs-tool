@@ -1,34 +1,41 @@
-import json
 from dataclasses import dataclass
+from typing import Any
 
 from loguru import logger
-from semgrep.semgrep_interfaces.semgrep_output_v1 import CliOutput
+from pydantic import BaseModel, Field, model_validator
 
 from analyzers.semgrep.constants import SEMGREP_REPORT_FILE
 from common.schemas import Address, BaseFile
 
 
+class Issue(BaseModel):
+    class Config:
+        extra = "ignore"
+
+    description: str
+
+    @model_validator(mode="before")
+    def validate(self, value: Any) -> dict:
+        description = self["extra"]["message"]
+        path = self["path"]
+        return {"description": f"({path}):\n{description}"}
+
+
+class Report(BaseModel):
+    class Config:
+        extra = "ignore"
+
+    issues: list[Issue] = Field(alias="results")
+
+
 @dataclass
-class SemgrepReportFile(BaseFile[CliOutput]):
+class SemgrepReportFile(BaseFile[Report]):
     name: str = SEMGREP_REPORT_FILE
 
     def get_content(self) -> str:
-        """
-        The function `get_content` returns a JSON representation of the results in the `content`
-        attribute.
-        :return: A JSON string representation of the results from the content attribute of the object.
-        """
-        report = [result.to_json() for result in self.content.results]
-        return json.dumps(report)
+        return self.content.model_dump_json()
 
     def write(self, address: Address):
-        """
-        The `write` function writes an address and logs warning messages for each result in the content.
-
-        :param address: The `address` parameter in the `write` method is an instance of the `Address`
-        class. It is used to specify the address where the content should be written to
-        :type address: Address
-        """
         super().write(address)
-        for result in self.content.results:
-            logger.warning("[{}] {}:{} {}", address, result.path.value, result.start.line, result.extra.message)
+        for result in self.content.issues:
+            logger.warning("[{}] {}", address, result.description)

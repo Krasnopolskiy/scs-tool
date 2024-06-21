@@ -1,4 +1,4 @@
-import os
+import json
 from copy import deepcopy
 from pathlib import Path
 
@@ -7,26 +7,23 @@ from mythril.interfaces.cli import load_code, set_config
 from mythril.mythril import MythrilAnalyzer, MythrilDisassembler
 
 from analyzers.mythril.config import ARGS
-from analyzers.mythril.schemas import MythrilReportFile
+from analyzers.mythril.schemas import MythrilReportFile, Report
 from common.constants import SOURCE_PATH
 from common.schemas import Address
-from solc.solc import get_solc_binary
+from common.utils import switch_solc_binary
 
 
 def setup_analyzer(targets: list[Path]):
     """
-    The function `setup_analyzer` sets up a Mythril analyzer for analyzing Solidity files.
-
-    :param targets: Targets is a list of file paths that the function `setup_analyzer` will use to set
-    up the analyzer. The function reads the content of the first target file to get the solc binary,
-    sets the SOLC environment variable, and then initializes various components needed for the
-    MythrilAnalyzer
+    The `setup_analyzer` function initializes a MythrilAnalyzer with specified targets and configuration
+    settings.
+    
+    :param targets: A list of file paths to Solidity files that will be analyzed
     :type targets: list[Path]
     :return: MythrilAnalyzer(strategy=args.strategy, disassembler=disassembler, address=address,
     cmd_args=args)
     """
-    solc = get_solc_binary(targets[0].read_text())
-    os.environ["SOLC"] = str(solc)
+    switch_solc_binary(targets[0].read_text())
 
     args = deepcopy(ARGS)
     args.solidity_files = [str(target) for target in targets]
@@ -40,17 +37,13 @@ def setup_analyzer(targets: list[Path]):
 
 async def analyze(address: Address) -> MythrilReportFile | None:
     """
-    This Python function analyzes Solidity files at a given address using Mythril and returns a report
-    file if analysis is successful.
-
+    This Python function analyzes Solidity smart contracts using Mythril and returns a Mythril report
+    file if contracts are found for analysis.
+    
     :param address: The `address` parameter in the `analyze` function represents the address of a smart
-    contract that you want to analyze using the Mythril tool. The function first constructs a target
-    path based on the provided address, searches for Solidity files in that path, sets up the Mythril
-    analyzer for those files
+    contract that you want to analyze using Mythril
     :type address: Address
-    :return: The function `analyze` returns either a `MythrilReportFile` object containing the analysis
-    report if there are Solidity files to analyze, or `None` if there are no Solidity files found for
-    analysis.
+    :return: The `analyze` function returns either a `MythrilReportFile` object or `None`.
     """
     target = SOURCE_PATH / address
     targets = list(target.rglob("*.sol"))
@@ -60,4 +53,5 @@ async def analyze(address: Address) -> MythrilReportFile | None:
     logger.info("[{}] Running mythril analysis", address)
     analyzer = setup_analyzer(targets)
     report = analyzer.fire_lasers(transaction_count=ARGS.transaction_count)
-    return MythrilReportFile(content=report)
+    report = json.loads(report.as_json())
+    return MythrilReportFile(content=Report(**report))

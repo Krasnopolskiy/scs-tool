@@ -18,7 +18,7 @@ class Report(BaseModel):
     class Config:
         extra = "ignore"
 
-    results: list[Issue]
+    issues: list[Issue]
 
 
 @dataclass
@@ -26,21 +26,9 @@ class SlitherReportFile(BaseFile[Report]):
     name: str = SLITHER_REPORT_FILE
 
     def get_content(self) -> str:
-        """
-        This function returns the JSON dump of the content model.
-        :return: The `get_content` method is returning the JSON dump of the model content stored in the
-        `self.content` attribute.
-        """
         return self.content.model_dump_json()
 
     def write(self, address: Address):
-        """
-        The function writes address information and logs any issues related to the content.
-
-        :param address: The `address` parameter in the `write` method is an instance of the `Address`
-        class. It is used to specify the address where the content is being written to or read from
-        :type address: Address
-        """
         super().write(address)
-        for issue in self.content.results:
+        for issue in self.content.issues:
             logger.warning("[{}] {}", address, issue.description)
