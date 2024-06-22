@@ -5,6 +5,7 @@ from asyncio import Task
 import nest_asyncio
 
 from analyzers.mythril.services import analyze_addresses as mythril_analyzes
+from analyzers.openai.services import analyze_addresses as openai_analyzes
 from analyzers.panoramix.services import decompile_addresses
 from analyzers.semgrep.services import analyze_addresses as semgrep_analyzes
 from analyzers.slither.services import analyze_addresses as slither_analyzes
@@ -82,6 +83,8 @@ async def analyze(args: Namespace, addresses: list[Address]):
         tasks.append(mythril_analyzes(addresses))
     if args.slither:
         tasks.append(slither_analyzes(addresses))
+    if args.openai:
+        tasks.append(openai_analyzes(addresses))
 
     await asyncio.gather(*tasks)
 

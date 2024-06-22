@@ -1,0 +1,28 @@
+Please analyze the following smart contract code for signs of a honeypot scheme. Specifically, check for the following criteria:
+
+1. **Obvious Vulnerabilities**: Carefully analyze the contract structure for the presence of clearly defined vulnerabilities that may attract potential attackers. For example, such contracts may contain functions that allow users to easily deposit funds but create difficulties when attempting to withdraw funds.
+2. **Duplicate Variable Definitions**: Check for repeated or duplicate definitions of variables, such as the owner address. In the analyzed contract, the variable Owner was defined twice, creating confusion and potentially allowing attackers to misjudge their ability to influence the contract.
+3. **Access Control Logic**: Evaluate the access control logic and condition checks for executing certain functions. In a honeypot contract, functions that attackers consider vulnerable, such as a setup() function that allows changing the contract owner, may be left in place. However, due to the double definition of the Owner variable, the real owner does not change, misleading the attacker and turning them into a victim of the fraud.
+
+Please analyze the following smart contract code for signs of a Ponzi scheme. Specifically, check for the following criteria:
+
+1. **Payment Structure**: Verify if the contract's payout structure depends on new deposits. If previous participants receive their payouts only when new funds are deposited, this is a clear indicator of a Ponzi scheme.
+2. **Commission Mechanism**: Analyze the mechanisms for holding and distributing commissions. Contracts that withhold significant commissions from each deposit and distribute them to a specific address are often fraudulent. These contracts are designed to profit the owner at the expense of new deposits, which is characteristic of Ponzi schemes.
+3. **Participation Conditions**: Examine the conditions for participation in the contract. If the contract requires a minimum deposit and promises significant payouts that exceed the initial deposit, this may indicate fraud. Such conditions create an illusion of high returns and attract new participants, which is the basis of a Ponzi scheme.
+4. **Balance-Dependent Payouts**: Check for mechanisms that ensure payouts only after accumulating a certain balance. If the contract stipulates payouts to previous participants only after enough funds are collected from new deposits, this also indicates a Ponzi scheme. In such contracts, the balance of payouts and deposits plays a crucial role, and without new participants, payouts become impossible, leading to losses for the last participants in the scheme.
+
+Please provide a detailed analysis based on the above criteria in the following JSON format:
+
+```json
+{
+  "issues": [
+    { "description": str }
+  ]
+}
+```
+
+You MUST reply only json. If there are no issues, reply with an empty list [].
+
+# BEGIN OF CONTRACT #
+{{ contract }}
+# END OF CONTRACT

@@ -56,3 +56,8 @@ analyzer.add_argument(
     help="Run static code analysis using Slither",
     action="store_true",
 )
+analyzer.add_argument(
+    "--openai",
+    help="Run code analysis using OpenAI model",
+    action="store_true",
+)

@@ -29,6 +29,7 @@ Analyzer options:
   --semgrep             Run static code analysis using Semgrep
   --mythril             Run static code analysis using Mythril
   --slither             Run static code analysis using Slither
+  --openai              Run code analysis using OpenAI model
 ```
 
 ## 🤖 Bypass AntiBot
