@@ -23,6 +23,11 @@ evm-cfg-builder = "^0.3.1"
 solc-select = "^1.0.4"
 openai = "^1.35.3"
 jinja2 = "^3.1.4"
+django = "^5.0.6"
+django-environ = "^0.11.2"
+mysqlclient = "^2.2.4"
+django-rest-framework = "^0.1.0"
+django-cors-headers = "^4.4.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"

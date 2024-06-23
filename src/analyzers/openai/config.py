@@ -5,7 +5,7 @@ CONFIG_PATH = "prompts"
 
 
 class OpenAIConfig(BaseSettings):
-    key: str = Field(default="", alias="OPENAI_KEY")
+    key: str = Field(default="", alias="OPENAI_API_KEY")
     model: str = Field(default="gpt-3.5-turbo", alias="OPENAI_MODEL")
 
 

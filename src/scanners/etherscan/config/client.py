@@ -11,7 +11,7 @@ from scanners.etherscan.config import constants
 class ClientSessionBuilder(BaseSettings):
     cf_clearance: str = ""
     user_agent: str = constants.USER_AGENT
-    keys: list[str] = Field(default=list(), alias="API_KEYS")
+    keys: list[str] = Field(default=list(), alias="ETHERSCAN_API_KEYS")
 
     @asynccontextmanager
     async def session(self) -> ClientSession:

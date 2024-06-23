@@ -1,6 +1,18 @@
 name: scs-tool
 
 services:
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./config/.env
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
   minio:
     image: minio/minio
     hostname: scs.minio
