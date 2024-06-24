@@ -21,11 +21,15 @@
             display: none;
             margin-top: 1rem;
         }
+
+        .main-container {
+            padding: 1rem 3rem 1rem 3rem;
+        }
     </style>
 </head>
 <body>
 
-<div class="container-fluid py-6">
+<div class="container-fluid main-container">
     <div class="row mb-5">
         <div class="col text-center">
             <h1 class="display-1 page-heading">Smart Contract Security Tool</h1>
@@ -52,11 +56,11 @@
     {% if contract %}
         <div class="row mb-5">
             <div class="col">
-                <div class="card mb-4">
+                <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Contract</h4>
-                        <pre class="fs-6 no-scroll">{{ contract.address }}</pre>
-                        <div class="accordion" id="source-accordion">
+                        <code class="fs-6 no-scroll">{{ contract.address }}</code>
+                        <div class="accordion mt-4" id="source-accordion">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="heading-source">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -76,15 +80,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="card mb-4">
+        <div class="row">
+            <div class="col">
+                <div class="card">
                     <div class="card-body">
                         <h4 class="mb-4">Analyzers Reports</h4>
                         <div class="accordion" id="report-accordion">
                             {% for report in contract.reports.all %}
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="heading-{{ report.analyzer }}">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse"
                                                 data-bs-target="#collapse-{{ report.analyzer }}" aria-expanded="false"
                                                 aria-controls="collapse-{{ report.analyzer }}">
                                             {{ report.analyzer | title }}
@@ -104,6 +113,95 @@
                                 </div>
                             {% endfor %}
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">Examples</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <caption>Vulnerable Contracts</caption>
+
+                            <thead>
+                            <tr>
+                                <th class="col-1" scope="col">#</th>
+                                <th class="col-3" scope="col">Address</th>
+                                <th class="col-3" scope="col">Name</th>
+                                <th class="col-3" scope="col">Report</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td><code>0x0a6f0c541be542c098b7ee03c9c634f20bcf8422</code></td>
+                                <td>MerkleDrop</td>
+                                <td>
+                                    <a href="/contracts/0x0a6f0c541be542c098b7ee03c9c634f20bcf8422/">Link</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td><code>0xd887c0197881626b3091b41354f9a99432d91aba</code></td>
+                                <td>WONO_ICO</td>
+                                <td>
+                                    <a href="/contracts/0xd887c0197881626b3091b41354f9a99432d91aba/">Link</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td><code>0xe75df3c68906f6adbe17e87d4e22509fde24c339</code></td>
+                                <td>Burner</td>
+                                <td>
+                                    <a href="/contracts/0xe75df3c68906f6adbe17e87d4e22509fde24c339/">Link</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <caption>Scam Contracts</caption>
+                            <thead>
+                            <tr>
+                                <th class="col-1" scope="col">#</th>
+                                <th class="col-3" scope="col">Address</th>
+                                <th class="col-3" scope="col">Name</th>
+                                <th class="col-3" scope="col">Report</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td><code>0xf45717552f12ef7cb65e95476f217ea008167ae3</code></td>
+                                <td>Government</td>
+                                <td>
+                                    <a href="/contracts/0xf45717552f12ef7cb65e95476f217ea008167ae3/">Link</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td><code>0x7d56485e026d5d3881f778e99969d2b1f90c50af</code></td>
+                                <td>ProtectTheCastle2</td>
+                                <td>
+                                    <a href="/contracts/0x7d56485e026d5d3881f778e99969d2b1f90c50af/">Link</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td><code>0x4ba0d338a7c41cc12778e0a2fa6df2361e8d8465</code></td>
+                                <td>ICO_Hold</td>
+                                <td>
+                                    <a href="/contracts/0x4ba0d338a7c41cc12778e0a2fa6df2361e8d8465/">Link</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
